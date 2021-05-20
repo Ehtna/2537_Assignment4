@@ -16,13 +16,19 @@ app.use("/html", express.static("static/html"));
 app.use("/css", express.static("static/css"));
 app.use("/img", express.static("static/img"));
 
-app.use(session(
-    {
-        secret:'the secret text is the friends along the way',
-        name:'DinoCopSessionID',
-        resave: false,
-        saveUninitialized: true }
-));
+const sessionMiddleware = session({
+    secret:'the secret text is the friends along the way',
+    name:'DinoCopSessionID',
+    resave: false,
+    saveUninitialized: true }
+);
+
+app.use(sessionMiddleware);
+io.use((socket, next) => {
+    sessionMiddleware(socket.request, {}, next);
+    // sessionMiddleware(socket.request, socket.request.res, next); will not work with websocket-only
+    // connections, as 'socket.request.res' will be undefined in that case
+  });
 
 const accessLogStream = rfs.createStream('access.log', {
     interval: '1d',
@@ -134,8 +140,10 @@ app.get('/getUserName', function(req, res) {
 var userCount = 0;
 
 io.on('connect', function(socket) {
+    const session = socket.request.session;
+    console.log(session);
     userCount++;
-    // session.userName undefined, bug
+    
     socket.userName = session.userName;
     io.emit('user_joined', { user: socket.userName, numOfUsers: userCount });
     console.log('Connected users:', userCount);
