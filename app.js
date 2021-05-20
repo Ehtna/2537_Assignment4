@@ -1,5 +1,4 @@
 "use strict";
-
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
@@ -11,9 +10,6 @@ const io = require('socket.io')(server);
 const session = require("express-session");
 const { JSDOM } = require('jsdom');
 const mysql = require('mysql2');
-
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/script", express.static("static/script"));
 app.use("/html", express.static("static/html"));
@@ -27,6 +23,14 @@ app.use(session(
         resave: false,
         saveUninitialized: true }
 ));
+
+const accessLogStream = rfs.createStream('access.log', {
+    interval: '1d',
+    path: path.join(__dirname, 'log')
+  });
+  
+  app.use(morgan(':referrer :url :user-agent',
+                 { stream: accessLogStream }));
 
 app.get('/', function (req, res) {
     let doc = fs.readFileSync('./static/html/index.html', "utf8");
@@ -173,5 +177,5 @@ app.get('/logout', function(req,res){
 // Run server
 let port = 8000;
 server.listen(port, function () {
-    console.log("Today we suffer on port " + port);
+    console.log("I love your face on port " + port);
 });
