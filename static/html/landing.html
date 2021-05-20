@@ -3,14 +3,22 @@
   <head>
     <title>Assignment 4</title>
     <meta charset="utf-8"/>    
-    <link href="../css/index.css" type="css/text">    
+    <link href="../css/chat.css" type="css/text">    
   </head>
   <body>
     <h2>Landed</h2>
+    <div id="content">
 
-    
+      <form id="chat_form">
+        <textarea id="msg" placeholder="Your message here"></textarea>
+        <input type="button" id="send" value="Send"/>
+      </form>
+    </div>
+    <p>&nbsp;</p>
+    <div id="chat_content"></div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="script/client.js"></script>
+    <script src="http://localhost:8000/socket.io/socket.io.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../script/chat.js"></script>
   </body>
 </html>

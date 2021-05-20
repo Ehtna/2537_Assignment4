@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "jquery": "^3.6.0",
+    "jsdom": "^16.5.3",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.2.5",
+    "path": "^0.12.7",
+    "rotating-file-stream": "^2.1.5",
+    "socket.io": "^4.1.2"
+  }
+}
