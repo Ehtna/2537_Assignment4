@@ -1,0 +1,98 @@
+@font-face {font-family: 'arron'; src: url('../fonts/arron_script.ttf') format('truetype'); font-weight: normal; font-style: normal;}
+@font-face {font-family: 'edosz'; src: url('../fonts/edosz.ttf') format('truetype'); font-weight: normal; font-style: normal;}
+
+body{
+    background-color: black;
+}
+
+.container{
+    width: 95%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+#header{
+    margin: auto;
+    text-align: center;
+}
+
+#headerMain{
+    font-family:'edosz';
+}
+
+#headerSub{
+    font-family: 'Courgette', cursive;
+}
+
+#login{
+    margin: auto;
+    text-align: center;
+}
+#loginForm{
+    width: 100%;
+}
+
+#formTitle{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#user-name{
+    text-align: center;
+}
+
+#submit{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#hallOfFame{
+    display: grid;
+    grid-template-columns: 50%, 50%;
+    grid-template-rows: 20%, 40%, 40%;
+    column-gap: 10%;
+    margin: auto;
+    text-align: center;
+}
+#hallOfFameTitle{
+    grid-column: 1/span 2;
+    font-family:'edosz';
+}
+
+@media only screen and (max-width : 800px) {
+    #headerMain{
+        font-size: 50pt;
+        margin-bottom: 5%;
+    }
+
+    #headerSub{
+        font-size: 15pt;   
+        margin-bottom: 3%;
+    }
+
+    #formTitle{
+
+    }
+
+    #user-name{
+        height: 7vh;
+        width: 100%;
+    }
+
+}
+
+@media only screen and (min-width : 801px) {
+    #headerMain{
+        font-size: 70pt;
+        margin-bottom: 8%;
+    }
+
+    #headerSub{
+        font-size: 20pt;
+        margin-bottom: 5%;
+    }
+
+    #formTitle{
+
+    }
+}

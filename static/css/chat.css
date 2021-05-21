@@ -1,0 +1,13 @@
+@font-face {font-family: 'arron'; src: url('../fonts/arron_script.ttf') format('truetype'); font-weight: normal; font-style: normal;}
+@font-face {font-family: 'comic'; src: url('../fonts/comicSans.ttf') format('truetype'); font-weight: normal; font-style: normal;}
+
+.arron{
+    font-family: "arron";
+}
+
+.comicSans{
+    font-family: "comic";
+}
+.timesNew{
+    font-family: 'Times New Roman', Times, serif;
+}

@@ -2,6 +2,29 @@
 
 $(document).ready(function () {
 
+    // Finds the dropdown menu
+    var dropDown = document.getElementById("fontSelection");
+    // Sets initial selection on dropdown menu
+    var fontChoice = "timesNew";
+    // When dropdown menu changes updates the selection
+    dropDown.addEventListener('change', () => {
+        let selection = dropDown.selectedIndex + 1;
+        switch (selection) {
+            case 1:
+                fontChoice = "timesNew";
+                break;
+            case 2:
+                fontChoice = "comicSans";
+                break;
+            case 3:
+                fontChoice = "arron";
+                break;
+            default:
+                fontChoice = "timesNew";
+                break;
+        }
+    })
+
     let userName = "";
 
     function getUserName() {
@@ -28,18 +51,18 @@ $(document).ready(function () {
         let numOfUsers = data.numOfUsers;
         let userStr = "";
         if (numOfUsers == 1) {
-            userStr = "user";
+            userStr = "combatant";
         } else {
-            userStr = "users";
+            userStr = "combatants";
         }
         if (numOfUsers < 2) {
 
-            $("#chat_content").append("<p>Just you, no one else.</p>");
+            $("#chat_content").append("<p>You stand alone in the arena.</p>");
 
         } else {
 
             $("#chat_content").append(beginTag + data.user
-                + " connected. There are " + numOfUsers + " " + userStr + ".</p>");
+                + " connected. There are " + numOfUsers + " " + userStr + " currently in the arena.</p>");
 
         }
 
@@ -50,19 +73,19 @@ $(document).ready(function () {
         let numOfUsers = data.numOfUsers;
         let userStr = "";
         if (numOfUsers == 1) {
-            userStr = "user";
+            userStr = "combatant";
         } else {
-            userStr = "users";
+            userStr = "combatants";
         }
         if (numOfUsers < 2) {
 
-            $("#chat_content").append("<p>" + data.user + " left. You are now all alone on this chat server <span style='font-size: 1.2em; color: blue;'>☹</span>.</p>");
+            $("#chat_content").append("<p>" + data.user + " has fled from combat. You stand alone triumphantly. It's lonely at the top.</p>");
 
 
         } else {
 
             $("#chat_content").append(beginTag + data.user
-                + " left. Now chatting with " + numOfUsers + " " + userStr + "</p>");
+                + " has fled from combat. " + numOfUsers + " " + userStr + " remain with you in the arena.</p>");
 
         }
 
@@ -72,9 +95,9 @@ $(document).ready(function () {
     socket.on('chatting', function (data) {
         //console.log(data);
         let me = userName;
-        let beginTag = "<p>";
+        let beginTag = "<p class ='" + fontChoice + "'>";
         if (me == data.user) {
-            beginTag = "<p style='color: darkblue;'>";
+            beginTag = "<p style='color: darkblue;' class ='" + fontChoice + "'>";
         }
         if (data.event) {
             $("#chat_content").append("<p style='color: orange;'>" + data.event + "</p>");

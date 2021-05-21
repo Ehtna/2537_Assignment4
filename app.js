@@ -15,6 +15,7 @@ app.use("/script", express.static("static/script"));
 app.use("/html", express.static("static/html"));
 app.use("/css", express.static("static/css"));
 app.use("/img", express.static("static/img"));
+app.use("/fonts", express.static("static/fonts"));
 
 const sessionMiddleware = session({
     secret:'the secret text is the friends along the way',
@@ -45,8 +46,8 @@ app.get('/', function (req, res) {
 
     //initDB();
 
-    res.set('Server', 'Wazubi Engine');
-    res.set('X-Powered-By', 'My strong arms');
+    res.set('Server', 'Dinoserver mk3.xx');
+    res.set('X-Powered-By', 'Nolans force of will');
     res.send(dom.serialize());
 });
 
@@ -185,5 +186,5 @@ app.get('/logout', function(req,res){
 // Run server
 let port = 8000;
 server.listen(port, function () {
-    console.log("I love your face on port " + port);
+    console.log("GLORIOUS COMBAT AT PORT " + port);
 });
