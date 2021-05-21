@@ -15,19 +15,13 @@
       <h1 id="headerMain">Welcome To <br />Chat Arena</h1>
     </div>
 
-    <div id="content">
-      <form action="/logout" method="get" id="logout">
-        <input type="submit" value="Exit the Arena" />
-      </form>
+    <div id="chat_content"></div>
 
-      <form id="chat_form">
-        <textarea id="msg" placeholder="Your message here"></textarea>
-        <input type="button" id="send" value="Send" />
-      </form>
-    </div>
+ 
 
+    <h2>Customize your weapon!</h2>
     <div id="styleText">
-      <h2>Customize your weapon!</h2>
+      
       <div id="chooseFont">
         <p>Pick your font.</p>
         <select name="font choice" id="fontSelection">
@@ -52,7 +46,17 @@
         </select>
       </div>
     </div>
-    <div id="chat_content"></div>
+
+    <div id="content">
+      <form id="chat_form">
+        <textarea id="msg" placeholder="Your message here"></textarea>
+        <input type="button" id="send" value="Send" />
+      </form>
+    </div>
+    
+    <form action="/logout" method="get" id="logout">
+      <input type="submit" value="Exit the Arena" />
+    </form>
   </div>
   <script src="http://localhost:8000/socket.io/socket.io.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

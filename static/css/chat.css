@@ -9,9 +9,14 @@ body{
     margin: 0;
 }
 
+h2 {
+    font-size: 4em;
+    margin-top: 1vh;
+    text-align: center;
+}
 .container{
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     margin: auto;
     display: flex;
     flex-flow: column;
@@ -31,8 +36,61 @@ body{
     margin-top: 0;
     margin-bottom: 0;
 }
-#content{
-    align-content: center;
+
+#chat_form{
+    margin: 5vh auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#msg {
+    width: 90vw;
+    height: 10vh;
+    font-size: 3em;
+}
+
+#chat_content {
+    margin: 0 auto;
+    width: 90vw;
+    max-height: 40vh;
+    font-size: 2em;
+    overflow: scroll;
+}
+
+#styleText {
+    display: flex;
+    justify-content: space-around;
+    font-size: 3em;
+}
+
+select {
+    width: 30vw;
+    height: 5vh;
+    font-size: 0.5em;
+    overflow: scroll;
+}
+
+option {
+    font-size: 0.5em;
+}
+
+#send {
+    font-size: 2em;
+    width: 90vw;
+    height: 5vh;
+}
+
+#logout {
+    display: flex;
+    justify-content: center;
+}
+
+#logout input {
+    font-size: 3em;
+    height: 5vh;
+    width: 40vw;
 }
 
 @media only screen and (max-width : 800px) {
