@@ -19,9 +19,9 @@ $(document).ready(function () {
     colorMenu.addEventListener('change', () => {
         colorChoice = "color" + colorMenu.selectedIndex;
     })
-
+    // User name for current user
     let userName = "";
-
+    // Gets user name from session and stores as userName
     function getUserName() {
         $.ajax({
             url: "/getUserName",
@@ -36,7 +36,7 @@ $(document).ready(function () {
             }
         });
     }
-
+    // Populates chatlog with previous chat history
     function getChatHistory() {
         $.ajax({
             url: "/getChatHistory",
@@ -54,64 +54,65 @@ $(document).ready(function () {
             }
         });
     }
+    // Called at page load
     getUserName();
     getChatHistory();
 
+    // Socket.io
     let socket = io.connect('/');
-
+    // When new user joins post message
     socket.on('user_joined', function (data) {
+        // Start of the string for new users joining, add classes to style join messages
         let beginTag = "<p>";
+        // Number of users connected
         let numOfUsers = data.numOfUsers;
+        // Strings to differentiate multiple or singular user
         let userStr = "";
         if (numOfUsers == 1) {
             userStr = "combatant";
         } else {
             userStr = "combatants";
         }
+        // The actual join messages
         if (numOfUsers < 2) {
-
-            $("#chat_content").append("<p>You stand alone in the arena.</p>");
+            $("#chat_content").append(beginTag + "You stand alone in the arena.</p>");
 
         } else {
-
             $("#chat_content").append(beginTag + data.user
                 + " connected. There are " + numOfUsers + " " + userStr + " currently in the arena.</p>");
-
         }
-
     });
-
+    // When user leaves post message
     socket.on('user_left', function (data) {
-        let beginTag = "<p style='color: burlywood;'>";
+        // Start of the string for users leaving, add classes to style join messages
+        let beginTag = "<p>";
+        // Number of users connected
         let numOfUsers = data.numOfUsers;
+        // Strings to differentiate multiple or singular user
         let userStr = "";
         if (numOfUsers == 1) {
             userStr = "combatant";
         } else {
             userStr = "combatants";
         }
+        // The actual disconnect messages
         if (numOfUsers < 2) {
-
-            $("#chat_content").append("<p>" + data.user + " has fled from combat. You stand alone triumphantly. It's lonely at the top.</p>");
-
-
+            $("#chat_content").append(beginTag + data.user + " has fled from combat. You stand alone triumphantly. It's lonely at the top.</p>");
         } else {
-
             $("#chat_content").append(beginTag + data.user
                 + " has fled from combat. " + numOfUsers + " " + userStr + " remain with you in the arena.</p>");
 
         }
 
     });
-
-    // this is from others - not our text
+    // Posts messages
     socket.on('chatting', function (data) {
-        //console.log(data);
+        // Sets userName for current user
         let me = userName;
-        // Gets used for other users
+        // This is the beginTag for all users other than the current connected user
         let beginTag = "<p class ='" + data.font + " " + data.color + "'>";
         if (me == data.user) {
-            // Used for connected user
+            // beginTag is changed for current user
             beginTag = "<p class ='" + fontChoice + " " + colorChoice + "'>";
         }
         if (data.event) {
@@ -120,20 +121,22 @@ $(document).ready(function () {
         }
         // Part that actually appends the message to the page
         $("#chat_content").append(beginTag + data.user + " said: " + data.text + "</p>");
-
     });
 
-
+    // When send button is hit the message in the chat box is sent to the server
     $("#send").click(function () {
-
+        // Name of the user hitting send
         let name = userName;
+        // Their message
         let text = $("#msg").val();
-
+        // If the message is null the textbox quickly fades in and out, no message sent.
         if (text == null || text === "") {
             $("#msg").fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50);
             return;
         }
+        // Sends message to server
         socket.emit('chatting', { "name": name, message: text, font: fontChoice, color: colorChoice });
+        // Clears message box after sending message
         $("#msg").val("");
     });
 

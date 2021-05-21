@@ -42,17 +42,18 @@ app.get('/', function (req, res) {
     let doc = fs.readFileSync('./static/html/index.html', "utf8");
     let dom = new JSDOM(doc);
     let $ = require("jquery")(dom.window);
-
+    // Function to make DB if it doesnt exist
     initDB();
 
     res.set('Server', 'Dinoserver mk3.xx');
-    res.set('X-Powered-By', 'Nolans force of will');
+    res.set('X-Powered-By', 'Students suffering');
     res.send(dom.serialize());
 });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
+// Login and create session
 app.post('/login', function(req, res) {
     res.setHeader('Content-Type', 'application/json');
     req.session.loggedIn = true;
@@ -63,7 +64,7 @@ app.post('/login', function(req, res) {
     })
 
 });
-
+// Logout and redirect to index
 app.get('/logout', function(req,res){
     req.session.destroy(function(error){
         if(error) {
@@ -76,14 +77,13 @@ app.get('/logout', function(req,res){
 // Creates database if it doesn't already exist
 async function initDB() {
    
-    // Let's build the DB if it doesn't exist
     const connection = mysql.createConnection({
       host: 'localhost',
       user: 'root',
       password: '',
       multipleStatements: true
     });
-
+    // Database chatarena table chathistory
     const createDBAndTables = `CREATE DATABASE IF NOT EXISTS chatarena;
         use chatarena;
         CREATE TABLE IF NOT EXISTS chathistory (
@@ -96,10 +96,12 @@ async function initDB() {
     connection.end();
 }
 
+// Returns session username
 app.get('/getUserName', function(req, res) {
     res.send({ status: "success", user: req.session.userName, msg: "Logged in." });
 });
 
+// Returns all chat history
 app.get('/getChatHistory', function(req, res) {
 
     let connection = mysql.createConnection({
@@ -121,8 +123,7 @@ app.get('/getChatHistory', function(req, res) {
 
 });
 
-// Everything below is socket.io other than server
-var userCount = 0;
+
 
 // Changes :) to ☺
 function changeToEmoji(message) {   
@@ -144,6 +145,9 @@ function logChat(chat) {
     connection.end();
 }
 
+// Number of users connected to server
+var userCount = 0;
+// socket.io functionality
 io.on('connect', function(socket) {
     const session = socket.request.session;
     userCount++;
@@ -175,11 +179,11 @@ io.on('connect', function(socket) {
     });
 
     socket.on('chatting', function(data) {
-        // Saves every chat message other than server messages
+        // Calls function to replace :) with emoji
         let message = changeToEmoji(data.message);
+        // Saves user chat messages messages
         let chatlog = "<p class ='" + data.font + " " + data.color + "'>";
         chatlog += socket.userName + " said: " + message + "</p>";
-        logChat(chatlog);
         io.emit("chatting", {user: socket.userName, text: message, font: data.font, color: data.color});
 
     });
@@ -189,5 +193,5 @@ io.on('connect', function(socket) {
 // Run server
 let port = 8000;
 server.listen(port, function () {
-    console.log("GLORIOUS COMBAT AT PORT " + port);
+    console.log("Tonight we fight on port " + port);
 });
