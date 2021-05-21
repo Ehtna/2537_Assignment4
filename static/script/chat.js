@@ -48,12 +48,19 @@ $(document).ready(function () {
                     let chat = data.rows[i];
                     $("#chat_content").append(chat.msg);
                 }
+                scrollBottom();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("ERROR:", jqXHR, textStatus, errorThrown);
             }
         });
     }
+    // Scrolls chat to bottom on page load and when a message is sent
+    function scrollBottom() {
+        let chat = get.getElementById("chat_content");
+        chat.scrollTop = chat.scrollHeight;
+    }
+
     // Called at page load
     getUserName();
     getChatHistory();
@@ -121,6 +128,8 @@ $(document).ready(function () {
         }
         // Part that actually appends the message to the page
         $("#chat_content").append(beginTag + data.user + " said: " + data.text + "</p>");
+        // Calls function to scroll chat to bottom after a new message is posted
+        scrollBottom();
     });
 
     // When send button is hit the message in the chat box is sent to the server

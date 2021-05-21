@@ -10,12 +10,12 @@
 </head>
 
 <body>
-  <div id="container">
+  <div class="container">
     <div id="header">
-      <h1 id="headerMain">Welcome To <br />Chat Arena</h1>
+      <h1 id="headerMain">Chat Arena</h1>
     </div>
 
-    <div id="content">
+    <div id="chat_submit">
       <form action="/logout" method="get" id="logout">
         <input type="submit" value="Exit the Arena" />
       </form>
@@ -24,7 +24,7 @@
         <textarea id="msg" placeholder="Your message here"></textarea>
         <input type="button" id="send" value="Send" />
       </form>
-    </div>
+    
 
     <div id="styleText">
       <h2>Customize your weapon!</h2>
@@ -51,6 +51,7 @@
           <option value="8">Black</option>
         </select>
       </div>
+    </div>
     </div>
     <div id="chat_content"></div>
   </div>
