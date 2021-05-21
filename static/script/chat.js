@@ -30,6 +30,7 @@ $(document).ready(function () {
             data: { format: "userName" },
             success: function (data) {
                 userName = data.user;
+                $("#userName").html("<p>Username: " + userName + "</p>");
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("ERROR:", jqXHR, textStatus, errorThrown);
@@ -58,7 +59,7 @@ $(document).ready(function () {
     // Scrolls chat to bottom on page load and when a message is sent
     function scrollBottom() {
         let chat = get.getElementById("chat_content");
-        chat.scrollTop = chat.scrollHeight;
+        chat.scrollTop = chat.scrollHeight - chat.clientHeight;
     }
 
     // Called at page load
@@ -88,6 +89,7 @@ $(document).ready(function () {
             $("#chat_content").append(beginTag + data.user
                 + " connected. There are " + numOfUsers + " " + userStr + " currently in the arena.</p>");
         }
+        $("#connectedUsers").html("<p>" + numOfUsers + " " + userStr + " connected.</p>");
     });
     // When user leaves post message
     socket.on('user_left', function (data) {
@@ -110,6 +112,7 @@ $(document).ready(function () {
                 + " has fled from combat. " + numOfUsers + " " + userStr + " remain with you in the arena.</p>");
 
         }
+        $("#connectedUsers").html("<p>" + numOfUsers + " " + userStr + " connected.</p>");
 
     });
     // Posts messages

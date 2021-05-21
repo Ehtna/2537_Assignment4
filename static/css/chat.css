@@ -8,11 +8,6 @@ body{
     margin: 0;
 }
 
-h2 {
-    font-size: 4em;
-    margin-top: 1vh;
-    text-align: center;
-}
 .container{
     width: 100%;
     height: 100%;
@@ -39,31 +34,95 @@ h2 {
 
 #styleText{
     margin: auto;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 20%, auto;
+    margin-top: 2%;
+    border: white 2px solid;
+    padding: 2%;
+}
+
+#styleHeader{
+    grid-column: 1/span 2;
+    grid-row: 1;
+    font-family: "edosz";
+    margin-top: 0;
+}
+
+#chooseFont{
+    text-align: center;
+}
+
+#chooseColor{
+    text-align: center;
 }
 
 #chat_submit{
     margin: auto;
+    margin-top: 0;
 }
+
+#msg{
+    resize: none;
+    width: 100%;
+    height: 5vh;
+    background-color: #a5adb3;  
+}
+
+#chatContainer{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 5vh, auto;
+}
+
+#userName{
+    text-align: center;
+}
+
+#connectedUsers{
+    text-align: center;
+}
+
 #chat_content{
-    margin: auto;
+    margin: 0;
+    width: 100%;
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
     padding-left: 3%;
     padding-right: 3%;
     background-color: #a5adb3;
+    grid-column: 1/span 2;
+    grid-row: 2;
 }
+
 
 @media only screen and (max-width : 800px) {
     #headerMain{
         font-size: 50pt;
-        margin-bottom: 5%;
+        margin-bottom: 3%;
+    }
+
+    #styleHeader{
+        font-size: 20pt;
+    }
+
+    #chatContainer{
+        margin: auto;
+        margin-bottom: 2%;
+        width: 100%;
+        max-width: 450px;
+    }
+    
+    #chat_form{
+        margin: auto;
+        width: 100%;
+        max-width: 450px;
+           
     }
 
     #chat_content{
         margin: auto;
-        width: 100%;
-        max-width: 450px;
         max-height: 40vh;
     }
 }
@@ -75,13 +134,28 @@ h2 {
 
     #headerMain{
         font-size: 70pt;
-        margin-bottom: 8%;
+        margin-bottom: 4%;
+    }
+
+    #styleHeader{
+        font-size: 30pt;  
+    }
+
+    #chatContainer{
+        margin: auto;
+        margin-bottom: 2%;
+        width: 100%;
+        max-width: 550px;
+    }
+
+    #chat_form{
+        margin: auto;
+        width: 100%;
+        max-width: 550px; 
     }
 
     #chat_content{
         margin: auto;
-        width: 100%;
-        max-width: 500px;
         max-height: 40vh;
     }
 }

@@ -15,12 +15,21 @@
       <h1 id="headerMain">Chat Arena</h1>
     </div>
 
-<<<<<<< HEAD
-=======
-    <h2>Customize your weapon!</h2>
->>>>>>> 306552741ed4dcdfedf3198ea3cfe8073082d474
-    <div id="styleText">
-      
+    <div id="chatContainer">
+      <div id="userName"></div>
+      <div id="connectedUsers"></div>
+      <div id="chat_content"></div>
+    </div>
+
+    <div id="chat_submit">
+      <form id="chat_form">
+        <textarea id="msg" placeholder="Your message here"></textarea>
+        <input type="button" id="send" value="Send" />
+      </form>
+    </div>
+
+    <div id="styleText">   
+      <h2 id="styleHeader">Customize your Weapon</h2>
       <div id="chooseFont">
         <p>Pick your font.</p>
         <select name="font choice" id="fontSelection">
@@ -46,18 +55,7 @@
       </div>
     </div>
 
-<<<<<<< HEAD
-    <div id="chat_submit">
-=======
-    <div id="content">
->>>>>>> 306552741ed4dcdfedf3198ea3cfe8073082d474
-      <form id="chat_form">
-        <textarea id="msg" placeholder="Your message here"></textarea>
-        <input type="button" id="send" value="Send" />
-      </form>
-    </div>
-
-    <div id="chat_content"></div>
+    
     
     <form action="/logout" method="get" id="logout">
       <input type="submit" value="Exit the Arena" />
