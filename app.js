@@ -141,7 +141,6 @@ function logChat(chat) {
     });
     connection.connect();
     connection.query('INSERT INTO chathistory (msg) values (?)', [chat]);
-    console.log(chat);
     connection.end();
 }
 
@@ -155,9 +154,9 @@ io.on('connect', function(socket) {
     socket.userName = session.userName;
     let connectMsg;
     if (userCount == 1) {
-        connectMsg = "<p>" + socket.userName + " connected. They stand alone in the arena.</p>";
+        connectMsg = "<p class='color0'>" + socket.userName + " connected. They stand alone in the arena.</p>";
     } else {
-        connectMsg = "<p>" + socket.userName + " connected. There are " + userCount + " combatants in the arena</p>";
+        connectMsg = "<p class='color0'>" + socket.userName + " connected. There are " + userCount + " combatants in the arena</p>";
     }
     logChat(connectMsg);
     io.emit('user_joined', { user: socket.userName, numOfUsers: userCount });
@@ -167,13 +166,13 @@ io.on('connect', function(socket) {
         userCount--;
         let disconnectMsg;
         if (userCount == 0){
-            disconnectMsg = "<p>" + socket.userName + " disconnected. The arena is empty.</p>";
+            disconnectMsg = "<p class='color0'>" + socket.userName + " disconnected. The arena is empty.</p>";
         } else if (userCount == 1) {
-            disconnectMsg = "<p>" + socket.userName + " disconnected. There is " + userCount + " combatants in the arena</p>";
+            disconnectMsg = "<p class='color0'>" + socket.userName + " disconnected. There is " + userCount + " combatants in the arena</p>";
         } else {
-            disconnectMsg = "<p>" + socket.userName + " disconnected. There are " + userCount + " combatants in the arena</p>";
+            disconnectMsg = "<p class='color0'>" + socket.userName + " disconnected. There are " + userCount + " combatants in the arena</p>";
         }
-        logChat(disconnectMsg); 
+        logChat(disconnectMsg);
         io.emit('user_left', { user: socket.userName, numOfUsers: userCount });
         console.log('Connected users:', userCount);
     });
@@ -184,6 +183,7 @@ io.on('connect', function(socket) {
         // Saves user chat messages messages
         let chatlog = "<p class ='" + data.font + " " + data.color + "'>";
         chatlog += socket.userName + " said: " + message + "</p>";
+        logChat(chatlog);
         io.emit("chatting", {user: socket.userName, text: message, font: data.font, color: data.color});
 
     });

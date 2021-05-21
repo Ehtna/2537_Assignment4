@@ -1,5 +1,57 @@
 @font-face {font-family: 'arron'; src: url('../fonts/arron_script.ttf') format('truetype'); font-weight: normal; font-style: normal;}
 @font-face {font-family: 'comic'; src: url('../fonts/comicSans.ttf') format('truetype'); font-weight: normal; font-style: normal;}
+@font-face {font-family: 'edosz'; src: url('../fonts/edosz.ttf') format('truetype'); font-weight: normal; font-style: normal;}
+
+
+body{
+    background-color:#23272A;
+    height: 100vh;
+    margin: 0;
+}
+
+.container{
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-flow: column;
+    color: white;
+    background-color:#2C2F33;
+}
+
+#header{
+    margin: auto;
+    text-align: center;
+    margin-top: 3%;
+    margin-bottom: 0;
+}
+
+#headerMain{
+    font-family:'edosz';
+    margin-top: 0;
+    margin-bottom: 0;
+}
+#content{
+    align-content: center;
+}
+
+@media only screen and (max-width : 800px) {
+    #headerMain{
+        font-size: 50pt;
+        margin-bottom: 5%;
+    }
+}
+
+@media only screen and (min-width : 801px) {
+    .container{
+        max-width: 850px;
+    }
+
+    #headerMain{
+        font-size: 70pt;
+        margin-bottom: 8%;
+    }
+}
 
 .font0{
     font-family: 'Times New Roman', Times, serif;
@@ -10,8 +62,11 @@
 .font2{
     font-family: "arron";
 }
+.font3{
+    font-family: "edosz";
+}
 .color0{
-    color:Black;
+    color: White;
 }
 .color1{
     color:Red;
@@ -30,4 +85,7 @@
 }
 .color6{
     color:Purple;
+}
+.color7{
+    color: Black;
 }

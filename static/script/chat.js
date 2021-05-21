@@ -63,7 +63,7 @@ $(document).ready(function () {
     // When new user joins post message
     socket.on('user_joined', function (data) {
         // Start of the string for new users joining, add classes to style join messages
-        let beginTag = "<p>";
+        let beginTag = "<p class='color0'>";
         // Number of users connected
         let numOfUsers = data.numOfUsers;
         // Strings to differentiate multiple or singular user
@@ -85,7 +85,7 @@ $(document).ready(function () {
     // When user leaves post message
     socket.on('user_left', function (data) {
         // Start of the string for users leaving, add classes to style join messages
-        let beginTag = "<p>";
+        let beginTag = "<p class='color0'>";
         // Number of users connected
         let numOfUsers = data.numOfUsers;
         // Strings to differentiate multiple or singular user
