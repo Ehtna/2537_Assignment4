@@ -32,6 +32,10 @@ body{
     margin-bottom: 0;
 }
 
+#styleText{
+    margin: auto;
+}
+
 #chat_submit{
     margin: auto;
 }
