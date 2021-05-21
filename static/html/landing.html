@@ -23,7 +23,7 @@
 
     <div id="chat_submit">
       <form id="chat_form">
-        <textarea id="msg" placeholder="Your message here"></textarea>
+        <textarea id="msg" class="color0 font0" placeholder="Your message here"></textarea>
         <input type="button" id="send" value="Send" />
       </form>
     </div>
@@ -31,7 +31,7 @@
     <div id="styleText">   
       <h2 id="styleHeader">Customize your Weapon</h2>
       <div id="chooseFont">
-        <p>Pick your font.</p>
+        <p id="fontSelectText">Choose your font.</p>
         <select name="font choice" id="fontSelection">
           <option value="1">Times New Roman</option>
           <option value="2">Comic Sans</option>
@@ -41,7 +41,7 @@
       </div>
 
       <div id="chooseColor">
-        <p>Choose a font color.</p>
+        <p id="colorSelectText">Choose a font color.</p>
         <select name="color choice" id="colorSelection">
           <option value="1">White</option>
           <option value="2">Red</option>
@@ -58,7 +58,7 @@
     
     
     <form action="/logout" method="get" id="logout">
-      <input type="submit" value="Exit the Arena" />
+      <input type="submit" value="Exit the Arena" id="logoutButton"/>
     </form>
   </div>
   <script src="http://localhost:8000/socket.io/socket.io.js"></script>

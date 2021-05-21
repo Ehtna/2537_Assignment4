@@ -9,6 +9,10 @@ $(document).ready(function () {
     // When dropdown menu changes updates the selection
     fontMenu.addEventListener('change', () => {
         fontChoice = "font" + fontMenu.selectedIndex;
+        $("#fontSelectText").replaceWith("<p id='fontSelectText' class='" + fontChoice + "'>Choose your font.</p>");
+        let userText = $("#msg").val();
+        $("#msg").replaceWith("<textarea id='msg' placeholder='Your message here' class='" + colorChoice 
+        + " " + fontChoice + "'>" + userText + "</textarea>");
     })
 
     // Finds the color menu
@@ -18,6 +22,10 @@ $(document).ready(function () {
     // When dropdown menu changes updates the selection
     colorMenu.addEventListener('change', () => {
         colorChoice = "color" + colorMenu.selectedIndex;
+        $("#colorSelectText").replaceWith("<p id='colorSelectText' class='" + colorChoice + "'>Choose your color.</p>");
+        let userText = $("#msg").val();
+        $("#msg").replaceWith("<textarea id='msg' placeholder='Your message here' class='" + colorChoice 
+        + " " + fontChoice + "'>" + userText + "</textarea>");
     })
     // User name for current user
     let userName = "";
