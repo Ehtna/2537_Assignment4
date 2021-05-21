@@ -59,14 +59,31 @@ body{
 
 #chat_submit{
     margin: auto;
+    width: 100%;
     margin-top: 0;
+}
+
+#chat_form{
+    margin: auto;
+    width: 100%;
+    height: 100%;
 }
 
 #msg{
     resize: none;
-    width: 100%;
-    height: 5vh;
-    background-color: #a5adb3;  
+    width: 70%;
+    height: 100%;
+    background-color: #a5adb3;
+    margin: 0;  
+}
+
+#send{
+    font-family: 'edosz';
+    background-color: #7289DA;
+    color: white;
+    width: 20%;
+    height: 100%;
+    margin: 0;
 }
 
 #chatContainer{
@@ -110,15 +127,17 @@ body{
     #chatContainer{
         margin: auto;
         margin-bottom: 2%;
+        margin-top: 0;
         width: 100%;
         max-width: 450px;
     }
     
     #chat_form{
-        margin: auto;
-        width: 100%;
-        max-width: 450px;
-           
+        max-width: 450px;         
+    }
+
+    .userData{
+        font-size: 13pt;
     }
 
     #chat_content{
@@ -144,19 +163,22 @@ body{
     #chatContainer{
         margin: auto;
         margin-bottom: 2%;
+        margin-top: 0;
         width: 100%;
         max-width: 550px;
     }
 
     #chat_form{
-        margin: auto;
-        width: 100%;
         max-width: 550px; 
     }
 
     #chat_content{
         margin: auto;
         max-height: 40vh;
+    }
+
+    .userData{
+        font-size: 18pt;
     }
 }
 

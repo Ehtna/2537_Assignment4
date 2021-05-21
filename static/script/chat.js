@@ -58,7 +58,7 @@ $(document).ready(function () {
     }
     // Scrolls chat to bottom on page load and when a message is sent
     function scrollBottom() {
-        let chat = get.getElementById("chat_content");
+        let chat = document.getElementById("chat_content");
         chat.scrollTop = chat.scrollHeight - chat.clientHeight;
     }
 
