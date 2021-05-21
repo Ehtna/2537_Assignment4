@@ -2,27 +2,22 @@
 
 $(document).ready(function () {
 
-    // Finds the dropdown menu
-    var dropDown = document.getElementById("fontSelection");
-    // Sets initial selection on dropdown menu
-    var fontChoice = "timesNew";
+    // Finds the font menu
+    var fontMenu = document.getElementById("fontSelection");
+    // Sets initial selection for font
+    var fontChoice = "font0";
     // When dropdown menu changes updates the selection
-    dropDown.addEventListener('change', () => {
-        let selection = dropDown.selectedIndex + 1;
-        switch (selection) {
-            case 1:
-                fontChoice = "timesNew";
-                break;
-            case 2:
-                fontChoice = "comicSans";
-                break;
-            case 3:
-                fontChoice = "arron";
-                break;
-            default:
-                fontChoice = "timesNew";
-                break;
-        }
+    fontMenu.addEventListener('change', () => {
+        fontChoice = "font" + fontMenu.selectedIndex;
+    })
+
+    // Finds the color menu
+    var colorMenu = document.getElementById("colorSelection");
+    // Sets initial selection for font
+    var colorChoice = "color0";
+    // When dropdown menu changes updates the selection
+    colorMenu.addEventListener('change', () => {
+        colorChoice = "color" + colorMenu.selectedIndex;
     })
 
     let userName = "";
@@ -35,7 +30,24 @@ $(document).ready(function () {
             data: { format: "userName" },
             success: function (data) {
                 userName = data.user;
-                console.log(userName);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("ERROR:", jqXHR, textStatus, errorThrown);
+            }
+        });
+    }
+
+    function getChatHistory() {
+        $.ajax({
+            url: "/getChatHistory",
+            dataType: "json",
+            type: "GET",
+            data: { format: "userName" },
+            success: function (data) {
+                for (let i = 0; i < data.rows.length; i++){
+                    let chat = data.rows[i];
+                    $("#chat_content").append(chat.msg);
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("ERROR:", jqXHR, textStatus, errorThrown);
@@ -43,11 +55,12 @@ $(document).ready(function () {
         });
     }
     getUserName();
+    getChatHistory();
 
     let socket = io.connect('/');
 
     socket.on('user_joined', function (data) {
-        let beginTag = "<p style='color: bisque;'>";
+        let beginTag = "<p>";
         let numOfUsers = data.numOfUsers;
         let userStr = "";
         if (numOfUsers == 1) {
@@ -95,13 +108,17 @@ $(document).ready(function () {
     socket.on('chatting', function (data) {
         //console.log(data);
         let me = userName;
-        let beginTag = "<p class ='" + fontChoice + "'>";
+        // Gets used for other users
+        let beginTag = "<p class ='" + data.font + " " + data.color + "'>";
         if (me == data.user) {
-            beginTag = "<p style='color: darkblue;' class ='" + fontChoice + "'>";
+            // Used for connected user
+            beginTag = "<p class ='" + fontChoice + " " + colorChoice + "'>";
         }
         if (data.event) {
+            // Server messages
             $("#chat_content").append("<p style='color: orange;'>" + data.event + "</p>");
         }
+        // Part that actually appends the message to the page
         $("#chat_content").append(beginTag + data.user + " said: " + data.text + "</p>");
 
     });
@@ -112,16 +129,11 @@ $(document).ready(function () {
         let name = userName;
         let text = $("#msg").val();
 
-        // check if the name is blank, shouldn't be
-        if (name == null || name === "") {
-            $("#name").fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50);
-            return;
-        }
         if (text == null || text === "") {
             $("#msg").fadeOut(50).fadeIn(50).fadeOut(50).fadeIn(50);
             return;
         }
-        socket.emit('chatting', { "name": name, message: text });
+        socket.emit('chatting', { "name": name, message: text, font: fontChoice, color: colorChoice });
         $("#msg").val("");
     });
 

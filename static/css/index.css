@@ -70,12 +70,8 @@ body{
         margin-bottom: 3%;
     }
 
-    #formTitle{
-
-    }
-
     #user-name{
-        height: 7vh;
+        height: 3vh;
         width: 100%;
     }
 
@@ -90,9 +86,5 @@ body{
     #headerSub{
         font-size: 20pt;
         margin-bottom: 5%;
-    }
-
-    #formTitle{
-
     }
 }

@@ -24,11 +24,10 @@ const sessionMiddleware = session({
     saveUninitialized: true }
 );
 
+// Middleware so that socket.io can interact with sessions
 app.use(sessionMiddleware);
 io.use((socket, next) => {
     sessionMiddleware(socket.request, {}, next);
-    // sessionMiddleware(socket.request, socket.request.res, next); will not work with websocket-only
-    // connections, as 'socket.request.res' will be undefined in that case
   });
 
 const accessLogStream = rfs.createStream('access.log', {
@@ -44,7 +43,7 @@ app.get('/', function (req, res) {
     let dom = new JSDOM(doc);
     let $ = require("jquery")(dom.window);
 
-    //initDB();
+    initDB();
 
     res.set('Server', 'Dinoserver mk3.xx');
     res.set('X-Powered-By', 'Nolans force of will');
@@ -65,123 +64,127 @@ app.post('/login', function(req, res) {
 
 });
 
-// Not currently used
-app.post('/authenticate', function (req, res) {
-    res.setHeader('Content-Type', 'application/json');
-    let results = authenticate(req.body.username,
-        function (rows) {
-            if (rows == null) {
-                res.send({ status: "fail", msg: "User account not found." });
-            } 
-                // authenticate the user, create a session
-                req.session.loggedIn = true;
-                //req.session.username = rows.username;
-                req.session.save(function (err) {
-                })
-                res.send({ status: "success", msg: "Logged in." });
-        });
-});
-// Not currently used
-function authenticate(username, callback) {
-
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'assignment4'
-    });
-
-    connection.query(
-        "SELECT * FROM user WHERE username = ?", [username],
-        function (error, results) {
-            if (error) {
-                throw error;
-            }
-
-            if (results.length > 0) {
-                // email and password found
-                return callback(results[0]);
-            } else {
-                // user not found
-                return callback(null);
-            }
-
-        });
-
-}
-// Not currently used
-async function initDB() {
-   
-    // Let's build the DB if it doesn't exist
-    const connection = await mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      multipleStatements: true
-    });
-
-    const createDBAndTables = `CREATE DATABASE IF NOT EXISTS assignment4;
-        use assignment4;
-        CREATE TABLE IF NOT EXISTS user (
-        username varchar(30),
-        PRIMARY KEY (username));`;
-
-    await connection.query(createDBAndTables);
-
-    connection.end();
-}
-
-app.get('/getUserName', function(req, res) {
-
-    res.send({ status: "success", user: req.session.userName, msg: "Logged in." });
-
-});
-
-// Everything below is socket.io other than server
-var userCount = 0;
-
-io.on('connect', function(socket) {
-    const session = socket.request.session;
-    console.log(session);
-    userCount++;
-    
-    socket.userName = session.userName;
-    io.emit('user_joined', { user: socket.userName, numOfUsers: userCount });
-    console.log('Connected users:', userCount);
-
-    socket.on('disconnect', function(data) {
-        userCount--;
-        io.emit('user_left', { user: socket.userName, numOfUsers: userCount });
-
-        console.log('Connected users:', userCount);
-    });
-
-    socket.on('chatting', function(data) {
-
-        console.log('User', data.name, 'Message', data.message);
-
-        // if you don't want to send to the sender
-        //socket.broadcast.emit({user: data.name, text: data.message});
-
-        io.emit("chatting", {user: socket.userName, text: data.message});
-
-    });
-
-});
-
-app.get('/landing', function(req, res) {
-        let templateFile = fs.readFileSync('./static/html/landing.html', "utf8");
-        res.send(templateFile);
-}); 
-
 app.get('/logout', function(req,res){
     req.session.destroy(function(error){
         if(error) {
             console.log(error);
         }
     });
-    res.redirect("/landing");
+    res.redirect("/");
 })
+
+// Creates database if it doesn't already exist
+async function initDB() {
+   
+    // Let's build the DB if it doesn't exist
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: '',
+      multipleStatements: true
+    });
+
+    const createDBAndTables = `CREATE DATABASE IF NOT EXISTS chatarena;
+        use chatarena;
+        CREATE TABLE IF NOT EXISTS chathistory (
+        ID int NOT NULL AUTO_INCREMENT,
+        msg varchar(500),
+        PRIMARY KEY (ID));`;
+
+    connection.query(createDBAndTables);
+
+    connection.end();
+}
+
+app.get('/getUserName', function(req, res) {
+    res.send({ status: "success", user: req.session.userName, msg: "Logged in." });
+});
+
+app.get('/getChatHistory', function(req, res) {
+
+    let connection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "chatarena"
+    });
+    connection.connect();
+
+    connection.query("SELECT * FROM chathistory", function (error, results) {
+        if (error) {
+            throw error;
+        }
+        res.send({ msg: "success", rows: results });
+    });
+
+    connection.end();
+
+});
+
+// Everything below is socket.io other than server
+var userCount = 0;
+
+// Changes :) to ☺
+function changeToEmoji(message) {   
+    let messageWithEmoji = message.replace(":)","☺")
+    return messageWithEmoji;
+}
+
+// Saves user chatlogs to the database
+function logChat(chat) {
+    let connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'chatarena'
+    });
+    connection.connect();
+    connection.query('INSERT INTO chathistory (msg) values (?)', [chat]);
+    console.log(chat);
+    connection.end();
+}
+
+io.on('connect', function(socket) {
+    const session = socket.request.session;
+    userCount++;
+    
+    socket.userName = session.userName;
+    let connectMsg;
+    if (userCount == 1) {
+        connectMsg = "<p>" + socket.userName + " connected. They stand alone in the arena.</p>";
+    } else {
+        connectMsg = "<p>" + socket.userName + " connected. There are " + userCount + " combatants in the arena</p>";
+    }
+    logChat(connectMsg);
+    io.emit('user_joined', { user: socket.userName, numOfUsers: userCount });
+    console.log('Connected users:', userCount);
+
+    socket.on('disconnect', function(data) {
+        userCount--;
+        let disconnectMsg;
+        if (userCount == 0){
+            disconnectMsg = "<p>" + socket.userName + " disconnected. The arena is empty.</p>";
+        } else if (userCount == 1) {
+            disconnectMsg = "<p>" + socket.userName + " disconnected. There is " + userCount + " combatants in the arena</p>";
+        } else {
+            disconnectMsg = "<p>" + socket.userName + " disconnected. There are " + userCount + " combatants in the arena</p>";
+        }
+        logChat(disconnectMsg); 
+        io.emit('user_left', { user: socket.userName, numOfUsers: userCount });
+        console.log('Connected users:', userCount);
+    });
+
+    socket.on('chatting', function(data) {
+        // Saves every chat message other than server messages
+        let message = changeToEmoji(data.message);
+        let chatlog = "<p class ='" + data.font + " " + data.color + "'>";
+        chatlog += socket.userName + " said: " + message + "</p>";
+        logChat(chatlog);
+        io.emit("chatting", {user: socket.userName, text: message, font: data.font, color: data.color});
+
+    });
+
+});
 
 // Run server
 let port = 8000;

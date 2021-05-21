@@ -1,28 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Assignment 4</title>
-    <meta charset="utf-8"/>    
+    <meta charset="utf-8" />
+    <meta name="author" content="Team Dinosaur Cop" />
+    <meta name="description" content="Chat with friends" />
+    <title>Chat Arena</title> 
     <link rel="stylesheet" type="text/css" href="../css/chat.css" >   
   </head>
   <body>
-    <h2>Landed</h2>
     <div id="content">
+
+      <form action="/logout" method="get" id="logout">
+        <input type="submit" value="Exit the Arena" />
+      </form>
 
       <form id="chat_form">
         <textarea id="msg" placeholder="Your message here"></textarea>
         <input type="button" id="send" value="Send"/>
       </form>
+
     </div>
+
+    <h2>Customize your weapon!</h2>
     <div id="chooseFont">
-      <p>Select your weapon!</p>
-      <select name="Purchase Type" id="fontSelection">
-        <option value="1">Times New Roman</option>
-        <option value="2">Comic Sans</option>
-        <option value="3">Arron Ferguson</option>
+      <p>Pick your font.</p>
+      <select name="font choice" id="fontSelection">
+        <option value="1"><span class="font0">Times New Roman</span></option>
+        <option value="2"><span class="font1">Comic Sans</span></option>
+        <option value="3"><span class="font2">Arron Ferguson</span></option>
     </select>
     </div>
-    <p>&nbsp;</p>
+
+    <div id="chooseColor">
+      <p>Choose a font color.</p>
+      <select name="color choice" id="colorSelection">
+        <option value="1" class="color3"><span class="color0">Black</span></option>
+        <option value="2"><span class="color1">Red</span></option>
+        <option value="3"><span class="color2">Blue</span></option>
+        <option value="3"><span class="color3">Green</span></option>
+        <option value="3"><span class="color4">Pink</span></option>
+        <option value="3"><span class="color5">Orange</span></option>
+        <option value="3"><span class="color6">Purple</span></option>
+    </select>
+    </div>
+    
     <div id="chat_content"></div>
 
     <script src="http://localhost:8000/socket.io/socket.io.js"></script>
